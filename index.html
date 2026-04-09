@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        /* Hidden input for capturing keyboard events during gameplay */
+        #typing-input {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="game-canvas"></canvas>
+    <input type="text" id="typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div id="error-overlay" style="display:none; position:fixed; top:0; left:0; right:0; background:red; color:white; padding:8px; font:14px monospace; z-index:9999; white-space:pre-wrap;"></div>
+    <script>
+        window.onerror = function(msg, url, line, col, err) {
+            var el = document.getElementById('error-overlay');
+            el.style.display = 'block';
+            el.textContent = 'ERROR: ' + msg + '\n' + url + ':' + line + ':' + col;
+        };
+        window.addEventListener('unhandledrejection', function(e) {
+            var el = document.getElementById('error-overlay');
+            el.style.display = 'block';
+            el.textContent = 'PROMISE ERROR: ' + (e.reason && e.reason.message || e.reason);
+        });
+    </script>
+    <script type="module" src="src/game/main.js"></script>
+</body>
+</html>
